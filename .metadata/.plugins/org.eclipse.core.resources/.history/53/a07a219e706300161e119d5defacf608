@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+<style>
+body {
+	background-color: lightblue;
+}
+
+div {
+	position: relative;
+	margin: 150px 300px;
+}
+
+#tb {
+	position: absolute;
+	top: 100px left:200px;
+	border-style: solid;
+	border-color: #0000ff;
+	width: 600px;
+	color: blue;
+	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div>
+		<form action="./loginServlet" method="get">
+
+			<table id="tb">
+				<tr>
+					<th>Login</th>
+				</tr>
+				<tr>
+					<td>USERNAME:</td>
+					<td><input type="text" name="uname" /></td>
+				<tr>
+					<td>PASWORD:</td>
+					<td><input type="text" name="pwd" /></td>
+				<tr>
+					<td><input type="submit" value="Register" /></td>
+
+				</tr>
+
+			</table>
+
+		</form>
+		<form action="../login.jsp">
+		<input type="submit" value="Login" />
+		</form>
+		
+	</div>
+</body>
+</html>

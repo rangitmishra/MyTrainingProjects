@@ -1,0 +1,36 @@
+package com.nagarro.airline.log;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class PrintJDBCData {
+	
+	public void printJDBCData(ResultSet resultSet) throws SQLException {
+  	  
+		while(resultSet.next()) {
+			  float nfare = (float) (resultSet.getFloat("fare")*1.4);
+			  
+			  StringBuffer stringBuffer = new StringBuffer(resultSet.getString("flightno"));
+			  stringBuffer.append("             ");
+			  stringBuffer.append(resultSet.getString("deploc"));
+			  stringBuffer.append("               ");
+			  stringBuffer.append(resultSet.getString("arrloc"));
+			  stringBuffer.append("           ");
+			  stringBuffer.append(resultSet.getString("validTill"));
+			  stringBuffer.append("           ");
+			  stringBuffer.append(resultSet.getString("flightTime"));
+			  stringBuffer.append("             ");
+			  stringBuffer.append(resultSet.getString("flightDuration"));
+			  stringBuffer.append("              ");
+			  stringBuffer.append(nfare);
+			  stringBuffer.append("           ");
+			  stringBuffer.append(resultSet.getString("seatAvailability"));
+			  stringBuffer.append("           ");
+			  stringBuffer.append(resultSet.getString("clas"));
+			  System.out.println(stringBuffer);
+		  }
+	
+	 
+	}
+
+}

@@ -1,0 +1,13 @@
+package com.nagarro.learning;
+
+public class TestProgram {
+public static void main(String[] args) {
+	System.out.println("Enter an array");
+	int [] array={5,-3,0,-2,-5};
+	for(int i : array){
+		System.out.print(i + " ");
+	}
+
+}
+
+}

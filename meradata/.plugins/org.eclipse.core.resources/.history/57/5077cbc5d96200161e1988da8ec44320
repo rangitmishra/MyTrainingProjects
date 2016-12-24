@@ -1,0 +1,5 @@
+package com.nagarro.imageupload.service;
+
+public class HibernateUtilities {
+
+}

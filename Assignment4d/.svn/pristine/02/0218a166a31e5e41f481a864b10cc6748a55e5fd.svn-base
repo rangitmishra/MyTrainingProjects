@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+body {
+	background-color: lightgreen;
+}
+
+div {
+	position: relative;
+	margin: 10px 150px;
+}
+
+#tbl {
+    margin:1px;
+    padding:1px;
+	border-style: solid;
+	border-color: #0000ff;
+	width: 600px;
+	color: blue;
+	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+}
+
+</style>
+</head>
+<body>
+<div>
+<table id="tbl" cellpadding="20" cellspacing="2" border="3">
+<tr>
+<th>Image Management System</th>
+</tr>
+<tr>
+<td>
+<form action="./start.html">
+<input type="submit" value="Register">
+</form>
+</td>
+<td>
+<form action="./loginpage.html">
+<input type="submit" value="Login">
+</form>
+</td>
+</tr>
+
+</table>
+</div>
+</body>
+</html>

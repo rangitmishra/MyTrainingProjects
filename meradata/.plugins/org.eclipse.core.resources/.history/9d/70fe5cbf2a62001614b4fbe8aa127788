@@ -1,0 +1,43 @@
+package com.nagarro.fileupload.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
+
+
+
+
+/**
+ * Servlet implementation class LoginValidation
+ */
+
+public class LoginValidation extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+           String name=request.getParameter("uname");
+           String pwd=request.getParameter("pwd");
+           PrintWriter out=response.getWriter();
+           if(name.equals("ranjeet")&&pwd.equals("password"))
+           {
+           out.println("You are avalid user");
+           Session session = HibernateUtilities.getSessionFactoryInstance().openSession();
+           session.close();
+
+           }
+           else
+           {
+        	   out.println("invalid user");
+           }
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+
+}

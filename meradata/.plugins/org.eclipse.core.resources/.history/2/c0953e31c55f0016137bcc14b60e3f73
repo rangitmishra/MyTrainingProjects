@@ -1,0 +1,44 @@
+package com.nagarro.airline.utilities;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.nagarro.airline.data.Flight;
+
+public class HibernateInsert {
+
+	public Flight dataToInsert() {
+		System.out.print("Enter fno:");
+		String flno = ConstantsLoader.getScanner().next();
+		System.out.print("Enter dep:");
+		String dep = ConstantsLoader.getScanner().next();
+		System.out.print("Enter arr:");
+		String arr = ConstantsLoader.getScanner().next();
+		System.out.print("Enter date(yyyy-mm-dd):");
+		String date = ConstantsLoader.getScanner().next();
+		System.out.print("Enter ftime:");
+		String ftime = ConstantsLoader.getScanner().next();
+		System.out.print("Enter fduration:");
+		float fduration = ConstantsLoader.getScanner().nextFloat();
+		System.out.print("Enter fare:");
+		float fare = ConstantsLoader.getScanner().nextFloat();
+		System.out.print("Enter seat:");
+		String seat = ConstantsLoader.getScanner().next();
+		System.out.print("Enter fclass:");
+		String fclass = ConstantsLoader.getScanner().next();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+		Date date1 = null;
+		try {
+			date1 = dateFormat.parse(date);
+		} catch (ParseException e) {
+			System.out.println("Incorrect date");
+
+		}
+		Flight flight = new Flight(flno, dep, arr, date1, ftime, fduration, fare, seat, fclass);
+
+		return flight;
+	}
+
+}

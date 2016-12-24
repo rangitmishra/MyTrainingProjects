@@ -1,0 +1,17 @@
+1470218599557	Rename package 'com.nagarro.flightSearch'
+1470218614508	Delete element
+1470218635034	Delete element
+1470225742529	Encapsulate field 'id'
+1470289144323	Encapsulate field 'id'
+1470289152050	Encapsulate field 'airlineName'
+1470289167061	Encapsulate field 'flights'
+1470292466122	Encapsulate field 'flight'
+1470292848312	Delete element
+1470309975977	Delete element
+1470361095715	Infer generic type arguments
+1470385642097	Delete element
+1470385879101	Delete element
+1470385978745	Delete element
+1470386705660	Delete element
+1470387153203	Delete element
+1470390994255	Delete element

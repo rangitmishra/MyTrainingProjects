@@ -1,0 +1,42 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+	background-color:red;
+    color: navy;
+    border-style:solid;
+    height:150px;
+    position: absolute;
+    top: 0px;
+    left:150px;
+    right:0px;
+}
+
+.intro {position: absolute;
+          left:170px;
+          top:150px; 
+          right: 0px;   }
+          
+.education {position: absolute;
+            left:170px;
+             top:300px; 
+             right: 0px;   }
+table, th, td {
+    border: 1px solid black;
+}
+img {
+    position: absolute;
+    left: 0px;
+    top: 20px;
+    width:150px;
+    height:177px;
+   
+}
+.link {position: absolute;
+            left:0px;
+             top:177px; 
+             background:orange; 
+             height:100% ;
+             width:150px ;
+             border-style:solid;}

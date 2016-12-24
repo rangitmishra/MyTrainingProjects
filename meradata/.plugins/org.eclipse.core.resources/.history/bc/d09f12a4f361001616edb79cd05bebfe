@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+</head>
+<body>
+<form action="./loginServlet" method="get">
+NAME:<input type="text" name="p1"/>
+   <input type="submit" value="hello"/>
+   </form>
+
+</body>
+</html>

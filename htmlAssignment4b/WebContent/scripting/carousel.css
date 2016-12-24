@@ -1,0 +1,44 @@
+        .carousel{
+        background-color:grey;
+      
+        width: 400px;
+        overflow: hidden;
+        height: 100px;
+        position: relative;
+        top:100px;
+        margin:auto;
+    }.carousel ul{
+        position: relative; 
+        list-style: none;
+        list-style-type: none;
+        margin: auto;
+        height: 100px;
+        padding: 0;
+    }.carousel ul li{
+        font-size:64px;
+        position: absolute;
+       
+        height: 100px;
+        width: 100px;
+        float: left;
+        margin-right: 1px;
+     
+        background-color:red;
+        text-align: center;
+       
+    }
+.btnLeft{
+position:absolute;
+top:160px;
+left:600px;}
+
+.btnRight{
+position:absolute;
+top:160px;
+left:1300px;}
+.context{
+//background-color:yellow;
+position:absolute;
+top:50px;
+left:600px;
+}

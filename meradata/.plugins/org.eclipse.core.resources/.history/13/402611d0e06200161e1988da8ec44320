@@ -1,0 +1,42 @@
+package com.nagarro.imageupload.service;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+
+import com.nagarro.imageupload.data.User;
+
+
+public class UserDao {
+	public void addUser(String userName, String password) {
+		try {
+			
+			StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+					.configure() // configures settings from hibernate.cfg.xml
+					.build();
+			SessionFactory sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+			Session session=sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+		
+			User user = new User();
+			user.setUserName(userName);
+			user.setPassword(password);
+		
+			session.save(user);
+
+			
+			transaction.commit();
+			
+		
+		} catch (HibernateException e) {
+	          e.printStackTrace();
+		}
+
+	}
+
+}

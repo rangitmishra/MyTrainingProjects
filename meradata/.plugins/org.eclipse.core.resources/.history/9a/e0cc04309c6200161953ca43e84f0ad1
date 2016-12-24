@@ -1,0 +1,5 @@
+package com.nagarro.fileupload.data;
+
+public class User {
+
+}

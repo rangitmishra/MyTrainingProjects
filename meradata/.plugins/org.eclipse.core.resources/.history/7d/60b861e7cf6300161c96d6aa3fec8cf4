@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16 Aug, 2016 10:02:35 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.nagarro.imageupload.data.Image" table="IMAGE">
+        <id name="imageId" type="int">
+            <column name="IMAGEID" />
+            <generator class="increment" />
+        </id>
+        <property name="size" type="int">
+            <column name="SIZE" />
+        </property>
+        <property name="imageName" type="java.lang.String">
+            <column name="IMAGENAME" />
+        </property>
+        <many-to-one name="user" class="com.nagarro.imageupload.data.User" not-null="true">
+            <column name="UID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

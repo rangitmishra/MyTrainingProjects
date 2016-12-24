@@ -1,0 +1,27 @@
+package com.nagarro.imageupload.service;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.nagarro.imageupload.data.User;
+
+
+public class UserDao {
+	public void addUser(String userName, String password) {
+		try {
+			Session session = HibernateUtilities.getSessionFactoryInstance().openSession();
+			Transaction transaction = session.beginTransaction();
+			User user = new User();
+			user.setUserName(userName);
+			user.setPassword(password);
+			session.save(user);
+			transaction.commit();
+			session.close();
+		} catch (HibernateException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+}

@@ -1,0 +1,59 @@
+package com.nagarro.imageupload.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Restrictions;
+
+
+import com.nagarro.imageupload.data.User;
+
+/**
+ * Servlet implementation class ValidateUser
+ */
+@WebServlet("/ValidateUser")
+public class ValidateUser extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+        String name=request.getParameter("uname");
+        String pwd=request.getParameter("pwd");
+        PrintWriter out=response.getWriter();
+		  try {
+				StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+                SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+                Session session = sessionFactory.openSession();
+                Transaction transaction = session.beginTransaction();
+    			Criteria cr = session.createCriteria(User.class);
+
+    			cr.add(Restrictions.eq("userName",name ));
+    			cr.add(Restrictions.eq("password", pwd));
+    			
+				@SuppressWarnings("unchecked")
+				List<User> user = cr.list();
+				if(user.size() >= 0){
+					
+				}
+		  }catch(HibernateException e) {
+			  System.out.println(e.getMessage());
+		  }
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}

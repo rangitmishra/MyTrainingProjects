@@ -1,0 +1,22 @@
+package com.nagarro.airline.utilities;
+
+import java.sql.SQLException;
+
+import com.mysql.jdbc.PreparedStatement;
+import com.nagarro.airline.data.Flight;
+
+public class SetDataIntoTableJdbc {
+	public void setDataIntoTable(Flight getData ,PreparedStatement pstmt) throws SQLException {
+
+		pstmt.setString(1, getData.getFlightNo());
+		pstmt.setString(2, getData.getDepLoc());
+		pstmt.setString(3, getData.getArrLoc());
+		pstmt.setDate(4, new java.sql.Date(getData.getValidTill().getTime()));
+		pstmt.setString(5, getData.getFlightTime());
+		pstmt.setFloat(6, getData.getFlightDuration());
+		pstmt.setFloat(7, getData.getFare());
+		pstmt.setString(8, getData.getSeatAvailability());
+		pstmt.setString(9, getData.getClas());
+		pstmt.executeUpdate();
+	}
+}

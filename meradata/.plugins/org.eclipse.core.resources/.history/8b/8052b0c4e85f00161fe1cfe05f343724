@@ -1,0 +1,119 @@
+package com.nagarro.airline.drive;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.nagarro.airline.log.TopLine;
+import com.nagarro.airline.service.DatabaseOperation;
+import com.nagarro.airline.service.implementation.HibernateImplementation;
+import com.nagarro.airline.service.implementation.JdbcImplementation;
+import com.nagarro.airline.utilities.ConstantsLoader;
+import com.nagarro.airline.utilities.HibernateUtilities;
+import com.nagarro.airline.utilities.JDBCUtilities;
+/**
+ * 
+ * This is a driver class which contains main
+ * 
+ * @author ranjeetmishra
+ *
+ */
+public class Driver {
+
+	public static void options() {
+
+		System.out.println("Options List:");
+		System.out.println("1.CREATE");
+		System.out.println("2.INSERT");
+		System.out.println("3.READ");
+		System.out.println("4.SEARCH");
+		System.out.println("5.DLETE");
+		System.out.println("6.QUIT");
+
+	}
+/**
+ * This class is simply for taking user options
+ * @return nothing
+ */
+	public static void start() {
+		int choice = 0;
+		System.out.println("Enter your choice to perform database operation:");
+		System.out.println("1.JDBC Implementation");
+		System.out.println("2.Hibernate Implementation");
+		ConstantsLoader.getScanner();
+
+		choice = ConstantsLoader.getScanner().nextInt();
+		DatabaseOperation databaseOperation = null;
+
+		if (choice == 1) {
+			databaseOperation = new JdbcImplementation();
+		} else if (choice == 2) {
+			databaseOperation = new HibernateImplementation();
+		} else {
+			System.out.println("Oops!! wrong option");
+		}
+
+		int option = 0;
+		TopLine topline = new TopLine();
+
+		options();
+
+		do {
+			System.out.print("Enter your choice:");
+
+			option = ConstantsLoader.getScanner().nextInt();
+
+			switch (option) {
+			case 1:
+				databaseOperation.create();
+				break;
+			case 2:
+				
+				databaseOperation.insertIntoTable();
+				break;
+			case 3:
+
+				
+				topline.printTopLine();
+				databaseOperation.read();
+				break;
+			case 4:
+				databaseOperation.search();
+				break;
+			case 5:
+				databaseOperation.delete();
+				break;
+			case 6:
+				System.out.println("Thankyou bye bye !!!!!");
+				break;
+
+			default:
+				System.out.println("enter valid choice");
+			}
+		} while (option != 6);
+
+	}
+/**
+ * Main class 
+ * @param args unused
+ * @return nothing
+ */
+	public static void main(String[] args) {
+
+		try (Scanner sc = ConstantsLoader.getScanner()) {
+			start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			HibernateUtilities.getSessionFactoryInstance().close();
+
+			try {
+				JDBCUtilities.getInstance().getConnection().close();
+			} catch (SQLException e) {
+				
+				System.out.println(e.getMessage());
+			}
+		}
+
+	}
+}

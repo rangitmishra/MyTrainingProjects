@@ -1,0 +1,27 @@
+package com.nagarro.airline.log;
+
+
+
+import com.nagarro.airline.utilities.ConstantsLoader;
+
+public class TakeInput {
+
+	public String[] takeInput() {
+	
+		System.out.println(
+				"------------------------------------SEARCH FLIGHT HERE--------------------------------------");
+		String[] string = new String[5];
+		System.out.print("Enter Departure loc:");
+		string[0] = ConstantsLoader.getScanner().nextLine();
+		System.out.print("Enter Arrival loc:");
+		string[1] =  ConstantsLoader.getScanner().nextLine();
+		System.out.print("Enter Journey date:");
+		string[2] =  ConstantsLoader.getScanner().nextLine();
+		System.out.print("Enter class:");
+		string[3] =  ConstantsLoader.getScanner().nextLine();
+		System.out.print("Enter sorting choice(fare/duration):");
+		string[4] =  ConstantsLoader.getScanner().nextLine();
+		return string;
+	}
+
+}

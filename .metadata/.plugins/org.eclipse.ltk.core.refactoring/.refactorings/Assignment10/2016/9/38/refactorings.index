@@ -1,0 +1,5 @@
+1473840162499	Move 'HelloPage.jsp' to 'WEB-INF'
+1473870036718	Delete element
+1473925073574	Move compilation unit
+1473925448269	Rename package 'com.nagarro.spring.data'
+1473926264394	Encapsulate field 'sessionFactory'

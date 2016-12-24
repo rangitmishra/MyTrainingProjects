@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+h1 {
+  margin:auto;}
+
+div {
+	position: relative;
+	margin: 10px 150px;
+}
+#div2 {
+	position: absolute;
+	top:0px;
+	left:0px;
+}
+
+
+#tb2 {
+	border-style: solid;
+	border-color: #0000ff;
+	width: 600px;
+	color: blue;
+	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+}
+
+</style>
+</head>
+<body background="pattern6.jpg">
+<h1 style="color:blue;">Image Management System</h1>
+<div>
+      
+		<div id="div2">
+				<form action="./validateUser" method="post">
+
+			<table id="tb2">
+				<tr>
+					<th>Login</th>
+				</tr>
+				<tr>
+					<td>USERNAME:</td>
+					<td><input type="text" name="uname" /></td>
+				<tr>
+					<td>PASWORD:</td>
+					<td><input type="password" name="pwd" /></td>
+				<tr>
+					<td><input type="submit" value="Login" /></td>
+					<td><a href="./start.html">Register</a>
+					<td><a href="./changePassword.html">Change Password</a>
+
+				</tr>
+
+			</table>
+		
+		</form>
+		
+	</div>
+	</div>
+</body>
+</html>

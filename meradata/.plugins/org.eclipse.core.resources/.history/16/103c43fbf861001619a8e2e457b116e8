@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login page</title>
+<style>
+body {
+    background-color: lightblue;
+}
+
+#tb{
+    border:2
+     border-style: solid;
+    border-color:black;
+    
+    width:150px;
+    color: white;
+    font-family: verdana;
+    font-size: 20px;
+    text-align: center;
+}
+
+</style>
+</head>
+<body>
+<form action="./loginServlet" method="get">
+
+<table id="tb">
+<tr>
+<th>Login</th>
+</tr>
+<tr>
+<td>
+USERNAME:
+</td>
+<td><input type="text" name="uname"/>
+</td>
+<tr>
+<td>PASWORD:
+</td>
+<td>
+<input type="text" name="pwd"/>
+</td>
+
+<tr>
+       <td>
+         <input type="submit" value="Login"/>
+         </td>
+         
+         </tr>
+         
+ </table>
+
+</form>
+
+</body>
+</html>

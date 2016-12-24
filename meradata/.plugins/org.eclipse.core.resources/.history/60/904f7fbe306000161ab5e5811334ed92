@@ -1,0 +1,180 @@
+package com.nagarro.airline.service.implementation;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+
+import com.nagarro.airline.data.Flight;
+import com.nagarro.airline.log.PrintData;
+import com.nagarro.airline.log.TakeInput;
+import com.nagarro.airline.log.TopLine;
+import com.nagarro.airline.service.DatabaseOperation;
+import com.nagarro.airline.utilities.ConstantsLoader;
+import com.nagarro.airline.utilities.DataToBeInserted;
+import com.nagarro.airline.utilities.HibernateUtilities;
+import com.nagarro.airline.utilities.InputValidator;
+
+/**
+ * Class Hibernate implements DatabaseOperation for creating deleting reading
+ * searching
+ * 
+ * @author ranjeetmishra
+ *
+ */
+public class HibernateImplementation implements DatabaseOperation {
+	private static final float RATE = (float) 1.4;
+
+	/**
+	 * Function to read data from table
+	 */
+	public void read() {
+
+		Transaction tx = null;
+		try (Session session = HibernateUtilities.getSessionFactoryInstance().openSession()) {
+
+			tx = session.beginTransaction();
+			Criteria cr = session.createCriteria(Flight.class);
+			List<Flight> fli = cr.list();
+
+			PrintData printData = new PrintData();
+			for (Iterator<Flight> iterator = fli.iterator(); iterator.hasNext();) {
+
+				Flight flight = iterator.next();
+				printData.printData(flight);
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	/**
+	 * Function to delete table
+	 */
+	public void drop() {
+		try(Session session = HibernateUtilities.getSessionFactoryInstance().openSession()) {
+		session.beginTransaction();
+		session.createSQLQuery("DROP TABLE `airline`.`flight`").executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+		System.out.println("Deleted successfully");
+		}catch(HibernateException e) {
+
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	/**
+	 * Function to create table
+	 */
+	public void create() {
+		try(Session session = HibernateUtilities.getSessionFactoryInstance().openSession()) {
+		DataToBeInserted insert = new DataToBeInserted();
+		String choice = "y";
+		do {
+
+			Flight flight = insert.dataToInsert();
+
+			session.beginTransaction();
+
+			session.save(flight);
+			session.getTransaction().commit();
+			System.out.print("Would u like to enter more data:");
+			choice = ConstantsLoader.getScanner().next();
+		} while (choice.equalsIgnoreCase("y"));
+		} catch(HibernateException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	public void insertIntoTable() {
+		create();
+	}
+
+	/**
+	 * Function to search for required flights in table
+	 */
+	public void search() {
+
+		TakeInput takeInput = new TakeInput();
+
+		Transaction tx = null;
+		try (Session session = HibernateUtilities.getSessionFactoryInstance().openSession()) {
+
+			takeInput = new TakeInput();
+			String[] string = takeInput.takeInput();
+			InputValidator validator = new InputValidator();
+			boolean isValid = false;
+			try {
+				isValid = validator.validateInput(string);
+			} catch (ParseException e1) {
+
+				System.out.println("Please enter correct date");
+			}
+
+			if (!isValid) {
+				System.out.println("Please enter correct date");
+				return;
+			}
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+			Date date2 = null;
+			try {
+
+				date2 = dateFormat.parse(string[2]);
+			} catch (ParseException e) {
+				System.out.println("Please enter correct date");
+			}
+			tx = session.beginTransaction();
+			Criteria cr = session.createCriteria(Flight.class);
+
+			cr.add(Restrictions.eq("depLoc", string[0]));
+			cr.add(Restrictions.eq("arrLoc", string[1]));
+			cr.add(Restrictions.gt("validTill", date2));
+			cr.add(Restrictions.eq("clas", string[3]));
+			cr.addOrder(Order.asc(string[4]));
+
+			List<Flight> fli = cr.list();
+
+			TopLine topLine = new TopLine();
+			topLine.printTopLine();
+
+			PrintData printData = new PrintData();
+			for (Iterator<Flight> iterator = fli.iterator(); iterator.hasNext();) {
+
+				Flight flight = iterator.next();
+				if (string[3].equalsIgnoreCase("B")) {
+					flight.setFare(flight.getFare() * RATE);
+
+				}
+				printData.printData(flight);
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println(e.getMessage());
+		}
+
+	}
+	public void delete() {
+		
+	}
+
+}

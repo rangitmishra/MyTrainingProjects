@@ -1,0 +1,5 @@
+package com.nagarro.airline.utilities;
+
+public class JDBCUtilities {
+
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modules>
+  <module moduleId="org.eclipse.jst.jee.server:Assignment9" serverId="Tomcat v8.0 Server at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:htmlAssignment2" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:htmlAssignment4b" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:htmlAssignment3" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Assignment9a" serverId="Tomcat v8.0 Server at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:htmlAssignment4a" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:htmlAssignment1" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.wst.web.internal.deployables.static:HtmlProject1" serverId="HTTP Preview at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Assignment10B" serverId="Tomcat v8.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Assignment4d" serverId="Tomcat v8.0 Server at localhost"/>
+</modules>

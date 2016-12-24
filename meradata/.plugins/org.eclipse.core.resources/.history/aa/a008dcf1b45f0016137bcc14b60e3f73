@@ -1,0 +1,230 @@
+package com.nagarro.airline.drive;
+
+
+import java.sql.DatabaseMetaData;
+
+import java.sql.ResultSet;
+
+import java.sql.Statement;
+import java.text.ParseException;
+
+import com.mysql.jdbc.PreparedStatement;
+import com.nagarro.airline.data.Flight;
+import com.nagarro.airline.log.PrintJDBCData;
+import com.nagarro.airline.log.PrintWithoutIncrement;
+import com.nagarro.airline.log.TakeInput;
+import com.nagarro.airline.log.TopLine;
+
+import com.nagarro.airline.utilities.GetDataToInsertJdbc;
+import com.nagarro.airline.utilities.HibernateInsert;
+import com.nagarro.airline.utilities.InputValidator;
+import com.nagarro.airline.utilities.JDBCUtilities;
+import com.nagarro.airline.utilities.SetDataIntoTableJdbc;
+
+public class JdbcImplementation implements DatabaseOperation {
+	
+	private static final String CREATEQUERY = "CREATE TABLE `airline`.`myflight` (`idflight` INT NOT NULL AUTO_INCREMENT,`flightno` VARCHAR(45) NOT NULL,`deploc` VARCHAR(45) NOT NULL,`arrloc` VARCHAR(45) NOT NULL,`validTill` DATE NOT NULL,`flightTime` VARCHAR(45) NOT NULL,`flightDuration` FLOAT NOT NULL,`fare` FLOAT NOT NULL,`seatAvailability` VARCHAR(45) NULL,`clas` VARCHAR(45) NULL,PRIMARY KEY (`idflight`))";
+	
+	//private static final String CREATEQUERY = "CREATE  TABLE `airline`.`myflight` ( `idmyflight` INT NOT NULL generated always as identity (start with 1,incremented by 1) ,`flightno` VARCHAR(45) NOT NULL ,`deploc` VARCHAR(45) NOT NULL ,`arrloc` VARCHAR(45) NOT NULL ,`validTill` DATE NOT NULL ,`flightTime` VARCHAR(45) NOT NULL ,`flightDuration` FLOAT NOT NULL ,`fare` FLOAT NOT NULL ,`seatAvailability` VARCHAR(45) NOT NULL ,`clas` VARCHAR(45) NOT NULL ,PRIMARY KEY (`idmyflight`) )";
+	
+	private static final String SELECTQUERY = "SELECT * FROM `airline`.`myflight`";
+	
+	private static final String DROPQUERY = "DROP TABLE `airline`.`myflight`";
+	
+	private static final String INSERTQUERY = "INSERT INTO `airline`.`myflight`(flightno, deploc, arrloc, validTill, flightTime, flightDuration, fare, seatAvailability, clas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	
+	private static final String SELECT_FARE_SORTED = "select * from `airline`.`myflight` where depLoc =  ? and arrLoc = ? and validTill >= ? and clas = ? order by fare asc";
+	
+	private static final String SELECT_DURATION_SORTED = "select * from `airline`.`myflight` where depLoc =  ? and arrLoc = ? and validTill >= ? and clas = ? order by flightDuration asc";
+	
+	private static final String SELECT_FARE_ECONOMIC = "select * from `airline`.`myflight` where depLoc =  ? and arrLoc = ? and validTill >= ? order by fare asc";
+	
+	private static final String SELECT_DURATION_ECONOMIC = "select * from `airline`.`myflight` where depLoc =  ? and arrLoc = ? and validTill >= ? order by flightDuration asc";
+
+
+	public void create() {
+
+		Statement myStat = null;
+
+		try{
+
+			myStat = JDBCUtilities.getInstance().getConnection().createStatement();
+			String sql = CREATEQUERY;
+			myStat.executeUpdate(sql);
+			System.out.println("created successfully");
+
+		} catch (Exception exc) {
+			System.out.println("There is some error in getting connection");
+		}
+
+	}
+
+	public void read() {
+
+		Statement myStat = null;
+
+		try {
+
+			DatabaseMetaData metadata = JDBCUtilities.getInstance().getConnection().getMetaData();
+			ResultSet resultSet;
+			resultSet = metadata.getTables(null, null, "myflight", null);
+			if (!resultSet.next()) {
+				System.out.println("There is no table to read");
+				return;
+			}
+			myStat = JDBCUtilities.getInstance().getConnection().createStatement();
+			String sql = SELECTQUERY;
+			ResultSet rs = myStat.executeQuery(sql);
+
+			PrintWithoutIncrement printJDBC = new PrintWithoutIncrement();
+			printJDBC.printJDBCData(rs);
+			rs.close();
+
+		} catch (Exception exc) {
+			System.out.println("Error in getting connection");
+		}
+
+	}
+
+	public void delete() {
+
+		{
+
+			Statement myStat = null;
+
+			try {
+
+				DatabaseMetaData metadata = JDBCUtilities.getInstance().getConnection().getMetaData();
+				ResultSet resultSet;
+				resultSet = metadata.getTables(null, null, "myflight", null);
+				if (!resultSet.next()) {
+					System.out.println("There is no table to delete");
+					return;
+				}
+
+				myStat = JDBCUtilities.getInstance().getConnection().createStatement();
+				String sql = DROPQUERY;
+				myStat.executeUpdate(sql);
+				System.out.println("deleted successfully");
+
+			} catch (Exception exc) {
+				System.out.println(exc.getMessage());
+			}
+		}
+
+	}
+
+	public void insertIntoTable() {
+
+		PreparedStatement pstmt = null;
+
+		try {
+
+			DatabaseMetaData metadata = JDBCUtilities.getInstance().getConnection().getMetaData();
+			ResultSet resultSet = null;
+			resultSet = metadata.getTables(null, null, "myflight", null);
+			if (!resultSet.next()) {
+				System.out.println("There is no table to insert");
+				return;
+			}
+
+			//GetDataToInsertJdbc insert = new GetDataToInsertJdbc();
+			//String[] getData = insert.getDataToInsert();
+			HibernateInsert insert = new HibernateInsert();
+			Flight flight = insert.dataToInsert();
+
+			String sql = INSERTQUERY;
+
+			pstmt = (PreparedStatement) JDBCUtilities.getInstance().getConnection().prepareStatement(sql);
+			SetDataIntoTableJdbc setData = new SetDataIntoTableJdbc();
+			setData.setDataIntoTable(flight, pstmt);
+
+			System.out.println("inserted successfully");
+
+		} catch (Exception exc) {
+			System.out.println("Error in getting connection");
+		}
+
+	}
+
+	public void search() {
+		TakeInput takeInput = new TakeInput();
+		String[] string = takeInput.takeInput();
+		InputValidator validator = new InputValidator();
+		boolean isValid = false;
+		try {
+			isValid = validator.validateInput(string);
+		} catch (ParseException e1) {
+
+			System.out.println("Please enter correct date");
+		}
+
+		if (!isValid) {
+			System.out.println("Please enter correct date");
+			return;
+		}
+
+		PreparedStatement pstmt = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			DatabaseMetaData metadata = JDBCUtilities.getInstance().getConnection().getMetaData();
+
+			resultSet = metadata.getTables(null, null, "myflight", null);
+			if (!resultSet.next()) {
+				System.out.println("There is no table to search");
+				return;
+			}
+
+			if (string[3].equalsIgnoreCase("B")) {
+				String sql = null;
+				if (string[4].equalsIgnoreCase("fare")) {
+					sql = SELECT_FARE_SORTED;
+				} else {
+					sql = SELECT_DURATION_SORTED;
+				}
+
+				pstmt = (PreparedStatement) JDBCUtilities.getInstance().getConnection().prepareStatement(sql);
+				pstmt.setString(1, string[0]);
+				pstmt.setString(2, string[1]);
+				pstmt.setString(3, string[2]);
+
+				pstmt.setString(4, "EB");
+
+				resultSet = pstmt.executeQuery();
+
+				TopLine topLine = new TopLine();
+				topLine.printTopLine();
+				PrintJDBCData printJDBC = new PrintJDBCData();
+				printJDBC.printJDBCData(resultSet);
+
+			} else {
+				String sql = null;
+				if (string[4].equalsIgnoreCase("fare")) {
+					sql = SELECT_FARE_ECONOMIC;
+				} else {
+					sql = SELECT_DURATION_ECONOMIC;
+				}
+
+				pstmt = (PreparedStatement) JDBCUtilities.getInstance().getConnection().prepareStatement(sql);
+				pstmt.setString(1, string[0]);
+				pstmt.setString(2, string[1]);
+				pstmt.setString(3, string[2]);
+
+				resultSet = pstmt.executeQuery();
+
+				TopLine topLine = new TopLine();
+				topLine.printTopLine();
+				PrintWithoutIncrement printJDBC = new PrintWithoutIncrement();
+				printJDBC.printJDBCData(resultSet);
+				resultSet.close();
+			}
+
+		} catch (Exception exc) {
+			System.out.println(exc.getMessage());
+		}
+
+	}
+
+}

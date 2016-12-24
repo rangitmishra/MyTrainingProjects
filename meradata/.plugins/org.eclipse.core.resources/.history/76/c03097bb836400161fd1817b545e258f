@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Aug, 2016 7:33:25 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.nagarro.upload.data.User" table="USER">
+        <id name="userId" type="int">
+            <column name="USERID" />
+            <generator class="assigned" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="USERNAME" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="PASSWORD" />
+        </property>
+        <set name="images" table="IMAGE" inverse="true"  cascade="delete,save-update">
+            <key>
+                <column name="USERID" />
+            </key>
+            <one-to-many class="com.nagarro.upload.data.Image" />
+        </set>
+    </class>
+</hibernate-mapping>
